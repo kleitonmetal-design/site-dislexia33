@@ -434,8 +434,6 @@ footer { padding-left: max(1rem, calc((100% - 64rem) / 2 + 1rem)); padding-right
   text-underline-offset: 0.3em;
 }
 .menu-sec { border-top: 2px solid var(--borda); margin-top: 0.5rem; padding-top: 0.5rem; }
-.ferramentas { display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; padding: 0 0.75rem; }
-.ferramentas button { width: 100%; text-align: left; }
 .insta { margin: 0; max-width: none; }
 .insta a { text-decoration: underline; text-underline-offset: 0.2em; }
 
