@@ -32,6 +32,31 @@
     gravar('fonte', novo); aplicarFonte(novo);
   });
 
+
+  // Menu do celular
+  var topo = document.querySelector('.topo');
+  var lista = document.getElementById('menu-principal');
+  if (topo && lista) {
+    var nav = lista.parentNode;
+    var btnMenu = document.createElement('button');
+    btnMenu.type = 'button';
+    btnMenu.className = 'menu-toggle';
+    btnMenu.textContent = 'Menu';
+    btnMenu.setAttribute('aria-expanded', 'false');
+    btnMenu.setAttribute('aria-controls', 'menu-principal');
+    nav.parentNode.insertBefore(btnMenu, nav);
+    topo.classList.add('menu-js');
+    function fechar() { lista.classList.remove('aberto'); btnMenu.setAttribute('aria-expanded', 'false'); }
+    btnMenu.addEventListener('click', function () {
+      var abre = !lista.classList.contains('aberto');
+      lista.classList.toggle('aberto', abre);
+      btnMenu.setAttribute('aria-expanded', String(abre));
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && lista.classList.contains('aberto')) { fechar(); btnMenu.focus(); }
+    });
+  }
+
   // Ouvir esta página
   var btnOuvir = document.getElementById('btn-ouvir');
   if (!('speechSynthesis' in window)) { btnOuvir.hidden = true; return; }
