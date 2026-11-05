@@ -29,3 +29,7 @@ Itens registrados para depois. Nada disso está feito ainda.
 - Automação de notícias com n8n.
 - Área de vídeos.
 - Newsletter.
+
+## Histórico
+
+- 2026-11-05: visual v2, link do Instagram e foto de perfil.
