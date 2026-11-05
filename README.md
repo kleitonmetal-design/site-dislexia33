@@ -33,3 +33,4 @@ Itens registrados para depois. Nada disso está feito ainda.
 ## Histórico
 
 - 2026-11-05: visual v2, link do Instagram e foto de perfil.
+- 2026-11-05: menu à esquerda no computador e gaveta no celular; página Ferramentas para dislexia e bloco novo na Home.
