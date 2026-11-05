@@ -486,3 +486,7 @@ footer { padding-left: max(1rem, calc((100% - 64rem) / 2 + 1rem)); padding-right
 
 .marca { flex-shrink: 0; }
 .marca img { max-width: none; }
+
+/* Foto de perfil */
+.foto-perfil { width: 100%; max-width: 15rem; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 6px solid var(--destaque); box-shadow: var(--sombra); justify-self: center; display: block; }
+.foto-sobre { max-width: 12rem; margin: 0.5rem 0 1rem; justify-self: start; }
