@@ -120,55 +120,7 @@ button:focus-visible {
 }
 .pular:focus { top: 1rem; }
 
-/* ---------- Topo e menu ---------- */
-.topo {
-  background: var(--fundo-2);
-  border-bottom: 2px solid var(--borda);
-  padding: 0.75rem 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.5rem;
-  align-items: center;
-  z-index: 10;
-}
-@media (min-width: 48em) {
-  .topo { position: sticky; top: 0; }   /* menu fixo no topo em telas grandes */
-}
-.marca {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--texto);
-  text-decoration: none;
-}
-.topo nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-width: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1rem;
-}
-.topo nav li { margin: 0; }
-.topo nav a {
-  display: inline-block;
-  padding: 0.5rem 0.25rem;
-  min-height: 44px;
-  line-height: 1.75;
-}
-.topo nav a[aria-current="page"] {
-  color: var(--texto);
-  font-weight: 700;
-  text-decoration-thickness: 3px;
-}
-
 /* ---------- Botões ---------- */
-.ferramentas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-left: auto;
-}
 button {
   font: inherit;
   background: var(--botao-fundo);
@@ -203,11 +155,6 @@ footer {
 }
 footer p { margin: 0 0 0.5em; }
 
-/* ---------- Telas pequenas ---------- */
-@media (max-width: 47.99em) {
-  .ferramentas { margin-left: 0; width: 100%; }
-  .ferramentas button { flex: 1 1 auto; }
-}
 img, video, svg { max-width: 100%; height: auto; }
 
 /* ---------- Movimento ---------- */
@@ -311,15 +258,6 @@ main > .bloco:first-of-type, .heroi + .bloco { border-top: 0; }
 }
 .faixa-ebook a { color: #1F2A2E; }
 
-/* Menu do celular (só age quando o JavaScript liga a classe menu-js) */
-.menu-toggle { display: none; }
-@media (max-width: 47.99em) {
-  .menu-js .menu-toggle { display: inline-block; }
-  .menu-js nav ul { display: none; }
-  .menu-js nav ul.aberto { display: flex; flex-direction: column; }
-  .menu-js nav { width: 100%; }
-}
-
 /* ---------- Visual v2 (05/11/2026): faixas, menu flutuante, rodapé ---------- */
 :root {
   --hero: #0A5060;
@@ -333,23 +271,6 @@ main > .bloco:first-of-type, .heroi + .bloco { border-top: 0; }
 
 /* Botões em pílula */
 button { border-radius: 999px; }
-
-/* Menu flutuante */
-.topo {
-  margin: 0.75rem;
-  border: 0;
-  border-radius: 20px;
-  box-shadow: var(--sombra);
-  padding: 0.5rem 1rem;
-}
-@media (min-width: 48em) {
-  .topo {
-    top: 0.5rem;
-    width: calc(100% - 1.5rem);
-    max-width: 72rem;
-    margin: 0.75rem auto;
-  }
-}
 
 /* Página inicial sem limite de largura (cada faixa limita o seu miolo) */
 main.largo { max-width: none; padding: 0; }
@@ -448,17 +369,6 @@ footer p, footer a { color: #F1EFE8; }
 footer a:focus-visible { outline-color: #F2B233; }
 
 /* ---------- Ajustes v2.1 ---------- */
-/* Menu em uma linha no computador */
-@media (min-width: 72em) {
-  .marca img { height: 34px; }
-  .ferramentas button { font-size: 0.875rem; padding: 0.4rem 0.8rem; }
-  .topo { flex-wrap: nowrap; gap: 0.5rem 1rem; }
-  .topo nav ul { flex-wrap: nowrap; gap: 0 0.5rem; }
-  .topo nav a { white-space: nowrap; }
-  .ferramentas { flex-wrap: nowrap; flex-shrink: 0; gap: 0.35rem; }
-  .ferramentas button { white-space: nowrap; padding: 0.4rem 0.7rem; }
-}
-
 /* Cartões: faixa de cor no topo sem cortar a borda arredondada */
 .caminho a {
   --faixa: var(--link);
@@ -490,3 +400,152 @@ footer { padding-left: max(1rem, calc((100% - 64rem) / 2 + 1rem)); padding-right
 /* Foto de perfil */
 .foto-perfil { width: 100%; max-width: 15rem; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 6px solid var(--destaque); box-shadow: var(--sombra); justify-self: center; display: block; }
 .foto-sobre { max-width: 12rem; margin: 0.5rem 0 1rem; justify-self: start; }
+
+/* ---------- Menu à esquerda e celular (05/11/2026) ---------- */
+
+/* Base (também vale sem JavaScript): o painel aparece aberto, como lista normal */
+.topo {
+  background: var(--fundo-2);
+  border-bottom: 2px solid var(--borda);
+  padding: 0.75rem 1rem;
+  z-index: 10;
+}
+.marca { display: inline-flex; align-items: center; min-height: 44px; flex-shrink: 0; }
+.marca img { height: 32px; width: auto; max-width: none; }
+.menu-toggle { display: none; }
+.painel nav ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.painel li { margin: 0; }
+.painel nav a,
+.insta a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.25rem 0.75rem;
+  color: var(--texto);
+  text-align: left;
+  text-decoration: none;
+}
+.painel nav a:hover,
+.insta a:hover { text-decoration: underline; }
+.painel nav a[aria-current="page"] {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.3em;
+}
+.menu-sec { border-top: 2px solid var(--borda); margin-top: 0.5rem; padding-top: 0.5rem; }
+.ferramentas { display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; padding: 0 0.75rem; }
+.ferramentas button { width: 100%; text-align: left; }
+.insta { margin: 0; max-width: none; }
+.insta a { text-decoration: underline; text-underline-offset: 0.2em; }
+
+.menu-fundo { display: none; }
+
+/* Celular: barra fina no topo e gaveta pela esquerda */
+@media (max-width: 47.99em) {
+  .menu-js.topo {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: calc(3.5rem + env(safe-area-inset-top));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: env(safe-area-inset-top) 1rem 0 max(1rem, env(safe-area-inset-left));
+    z-index: 40;
+  }
+  .menu-js ~ main { margin-top: calc(3.5rem + env(safe-area-inset-top)); }
+  .menu-js .marca, .menu-js .menu-toggle { position: relative; z-index: 42; }
+  .menu-js .menu-toggle { display: inline-flex; align-items: center; }
+  .menu-js .painel {
+    position: fixed;
+    top: 0; left: 0;
+    width: 85%;
+    max-width: 20rem;
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--fundo-2);
+    border-right: 2px solid var(--borda);
+    padding: calc(3.5rem + env(safe-area-inset-top) + 0.5rem) 0.5rem 1.5rem max(0.5rem, env(safe-area-inset-left));
+    z-index: 41;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 150ms ease, visibility 0s linear 150ms;
+  }
+  .menu-js .painel.aberto {
+    transform: none;
+    visibility: visible;
+    transition: transform 150ms ease, visibility 0s;
+  }
+  .menu-fundo {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 30;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 150ms ease, visibility 0s linear 150ms;
+  }
+  .menu-fundo.aberto { opacity: 1; visibility: visible; transition: opacity 150ms ease, visibility 0s; }
+  html.menu-aberto, html.menu-aberto body { overflow: hidden; }
+}
+
+/* Computador: coluna fixa à esquerda */
+@media (min-width: 48em) {
+  .topo {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 16rem;
+    height: 100dvh;
+    overflow-y: auto;
+    border-bottom: 0;
+    border-right: 2px solid var(--borda);
+    padding: 1rem 0.5rem 1.5rem;
+  }
+  .marca { display: block; padding: 0 0.75rem; margin-bottom: 1rem; }
+  .marca img { width: 100%; max-width: 13rem; height: auto; }
+  main {
+    --w: 48rem;
+    max-width: var(--w);
+    margin: 0 0 0 max(16rem, calc((100% + 16rem - var(--w)) / 2));
+  }
+  main.medio { --w: 64rem; }
+  main.largo { max-width: none; margin-left: 16rem; }
+  footer { margin-left: 16rem; padding-left: max(1rem, calc((100% - 16rem - 64rem) / 2 + 1rem)); }
+}
+
+/* Com a coluna de 16rem, o conteúdo útil é a tela menos 16rem: duas colunas só em telas largas */
+@media (min-width: 48em) and (max-width: 63.99em) {
+  .heroi { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+  .caminhos { grid-template-columns: 1fr; }
+  .duas, .duas-iguais { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+@media (min-width: 64em) {
+  .heroi h1 { font-size: clamp(2.25rem, 4vw, 3.25rem); }
+}
+
+/* Ajustes gerais de celular */
+.botao-principal, .botao-claro, .botao-escuro { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0 0.35em; }
+footer a, main li > a, main p > a:only-child { display: inline-flex; align-items: center; min-height: 44px; }
+footer p { margin-bottom: 0.25rem; }
+
+/* Página Ferramentas para dislexia */
+.aviso { border-left: 6px solid var(--destaque); padding-left: 1rem; }
+.grade-ferramentas { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 48em) {
+  .grade-ferramentas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.cartao-ferramenta {
+  background: var(--fundo-2);
+  border: 2px solid var(--borda);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+.cartao-ferramenta h3 { margin-top: 0; }
+.cartao-ferramenta p, .cartao-ferramenta ul { max-width: none; }
+.cartao-ferramenta ul { padding-left: 1.25rem; }
+.cartao-ferramenta > p:last-child { margin-top: auto; margin-bottom: 0; padding-top: 0.5rem; }
+.cartao-ferramenta .botao-claro { text-align: left; }
