@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 110" fill="none" aria-hidden="true">
+<g font-family="Verdana,Geneva,sans-serif" font-weight="700" font-size="60" text-anchor="middle">
+<rect x="4" y="8" width="88" height="88" rx="20" fill="#0A5060"/><text x="48" y="72" fill="#FBF8F1">b</text>
+<rect x="104" y="14" width="88" height="88" rx="20" fill="#F2B233"/><text x="148" y="78" fill="#1F2A2E">d</text>
+<rect x="208" y="8" width="88" height="88" rx="20" fill="#1F2A2E"/><text x="252" y="72" fill="#FBF8F1">p</text>
+<rect x="308" y="14" width="88" height="88" rx="20" fill="#0A5060"/><text x="352" y="78" fill="#F2B233">q</text>
+</g></svg>
