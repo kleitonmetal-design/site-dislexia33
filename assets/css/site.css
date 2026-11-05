@@ -1,6 +1,6 @@
 /* Dislexia 33 - estilo acessível.
    Contraste mínimo 7:1 para texto normal (verificado, ver README do estilo no PR).
-   Cores neutras provisórias. */
+   Paleta aprovada em 05/11/2026. */
 
 @font-face {
   font-family: "OpenDyslexic";
@@ -19,16 +19,16 @@
 
 /* ---------- Cores (tema claro é o padrão) ---------- */
 :root {
-  /* TROCAR: cor final */
-  --fundo: #ffffff;
-  --fundo-2: #f4f6f9;
-  --texto: #1a1a1a;          /* 17,4:1 sobre --fundo */
+  --fundo: #FBF8F1;
+  --fundo-2: #E8EFEA;
+  --texto: #1F2A2E;          /* 13,9:1 sobre --fundo */
   --texto-suave: #3d3d3d;    /* 10,0:1 sobre --fundo-2 */
-  --link: #0b3d91;           /* 10,0:1 sobre --fundo */
-  --botao-fundo: #1f3a5f;    /* TROCAR: cor final */
-  --botao-texto: #ffffff;    /* 11,5:1 sobre --botao-fundo */
+  --link: #0A5060;           /* 8,5:1 sobre --fundo */
+  --botao-fundo: #0A5060;
+  --botao-texto: #ffffff;    /* 9,0:1 sobre --botao-fundo */
   --borda: #5c6670;
-  --foco: #b35c00;           /* 4,7:1 (mínimo exigido para foco: 3:1) */
+  --foco: #8A5A00;           /* 5,6:1 (mínimo exigido para foco: 3:1) */
+  --destaque: #F2B233;
   --fonte: Verdana, Geneva, sans-serif;
   color-scheme: light;
 }
@@ -36,30 +36,30 @@
 /* ---------- Tema escuro pelo sistema ---------- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) {
-    --fundo: #121212;
-    --fundo-2: #1e1e1e;
-    --texto: #f2f2f2;        /* 16,7:1 */
+    --fundo: #12191B;
+    --fundo-2: #1B2528;
+    --texto: #F1EFE8;        /* 15,5:1 */
     --texto-suave: #c9c9c9;  /* 10,1:1 sobre --fundo-2 */
-    --link: #9ec5ff;         /* 10,6:1 */
-    --botao-fundo: #9ec5ff;  /* TROCAR: cor final */
-    --botao-texto: #121212;  /* 10,6:1 */
+    --link: #7FD1E0;         /* 10,2:1 */
+    --botao-fundo: #7FD1E0;
+    --botao-texto: #12191B;  /* 10,2:1 */
     --borda: #8a949e;
-    --foco: #ffd24a;         /* 13,0:1 */
+    --foco: #F2B233;         /* 9,5:1 */
     color-scheme: dark;
   }
 }
 
 /* ---------- Tema escuro escolhido no botão ---------- */
 :root[data-tema="escuro"] {
-  --fundo: #121212;
-  --fundo-2: #1e1e1e;
-  --texto: #f2f2f2;
+  --fundo: #12191B;
+  --fundo-2: #1B2528;
+  --texto: #F1EFE8;
   --texto-suave: #c9c9c9;
-  --link: #9ec5ff;
-  --botao-fundo: #9ec5ff;
-  --botao-texto: #121212;
+  --link: #7FD1E0;
+  --botao-fundo: #7FD1E0;
+  --botao-texto: #12191B;
   --borda: #8a949e;
-  --foco: #ffd24a;
+  --foco: #F2B233;
   color-scheme: dark;
 }
 
@@ -217,4 +217,105 @@ img, video, svg { max-width: 100%; height: auto; }
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------- Identidade visual (05/11/2026) ---------- */
+
+/* Logotipo: versão clara e escura */
+.marca { display: inline-flex; align-items: center; min-height: 44px; }
+.marca img { height: 40px; width: auto; display: block; }
+.logo-escuro { display: none !important; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .logo-claro { display: none !important; }
+  :root:not([data-tema="claro"]) .logo-escuro { display: block !important; }
+}
+:root[data-tema="escuro"] .logo-claro { display: none !important; }
+:root[data-tema="escuro"] .logo-escuro { display: block !important; }
+
+/* Largura maior para a página inicial */
+main.largo { max-width: 64rem; }
+
+/* Blocos sem caixa (classe nova; as páginas antigas seguem como estão) */
+.bloco {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--borda);
+  border-radius: 0;
+  padding: 1.5rem 0;
+  margin-bottom: 0;
+}
+main > .bloco:first-of-type, .heroi + .bloco { border-top: 0; }
+.bloco > h2:first-child { margin-top: 0; }
+
+/* Herói */
+.heroi {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+  background: transparent;
+  border: 0;
+  padding: 1rem 0 2rem;
+  margin-bottom: 0;
+}
+.heroi img { width: 100%; max-width: 26rem; height: auto; justify-self: center; }
+@media (min-width: 48em) {
+  .heroi { grid-template-columns: 1.1fr 0.9fr; }
+}
+.botao-principal {
+  display: inline-block;
+  background: var(--botao-fundo);
+  color: var(--botao-texto);
+  padding: 0.75rem 1.5rem;
+  min-height: 44px;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.botao-principal:hover { text-decoration: underline; }
+
+/* Barra lateral de destaque */
+.destaque-lateral { border-left: 6px solid var(--destaque); padding-left: 1rem; }
+
+/* Três caminhos */
+.caminhos {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  max-width: none;
+}
+@media (min-width: 48em) {
+  .caminhos { grid-template-columns: repeat(3, 1fr); }
+}
+.caminho { margin: 0; }
+.caminho a {
+  display: block;
+  height: 100%;
+  padding: 1.25rem;
+  background: var(--fundo-2);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: var(--texto);
+  text-decoration: none;
+}
+.caminho a:hover, .caminho a:focus-visible { border-color: var(--link); }
+.caminho img { width: 56px; height: 56px; margin-bottom: 0.75rem; display: block; }
+.caminho strong { display: block; font-size: 1.125rem; margin-bottom: 0.25rem; }
+
+/* Faixa do e-book (começa escondida) */
+.faixa-ebook {
+  background: var(--destaque);
+  color: #1F2A2E;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+.faixa-ebook a { color: #1F2A2E; }
+
+/* Menu do celular (só age quando o JavaScript liga a classe menu-js) */
+.menu-toggle { display: none; }
+@media (max-width: 47.99em) {
+  .menu-js .menu-toggle { display: inline-block; }
+  .menu-js nav ul { display: none; }
+  .menu-js nav ul.aberto { display: flex; flex-direction: column; }
+  .menu-js nav { width: 100%; }
 }
