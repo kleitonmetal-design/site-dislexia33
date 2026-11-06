@@ -1,0 +1,52 @@
+name: Segurança
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Script externo sem SRI
+        run: |
+          achados=$(grep -rnE '<script[^>]*src="https?:' --include='*.html' . | grep -v 'integrity=' || true)
+          if [ -n "$achados" ]; then
+            echo "Script externo sem integrity (SRI):"
+            echo "$achados"
+            exit 1
+          fi
+
+      - name: innerHTML nos arquivos JS
+        run: |
+          achados=$(grep -rn 'innerHTML' --include='*.js' --exclude-dir=.git . || true)
+          if [ -n "$achados" ]; then
+            echo "Uso de innerHTML:"
+            echo "$achados"
+            exit 1
+          fi
+
+      - name: Padrões de segredo
+        run: |
+          achados=$(grep -rnE 'sb_secret_|service_role|ghp_|github_pat_|BEGIN PRIVATE KEY' . --exclude-dir=.git --exclude=security.yml || true)
+          if [ -n "$achados" ]; then
+            echo "Possível segredo no código (conteúdo omitido):"
+            echo "$achados" | cut -d: -f1,2
+            exit 1
+          fi
+
+      - name: Links http sem s
+        run: |
+          achados=$(grep -rnE "(href|src)=[\"']http://" --include='*.html' --include='*.js' --include='*.css' --exclude-dir=.git . || true)
+          if [ -n "$achados" ]; then
+            echo "Link http:// encontrado:"
+            echo "$achados"
+            exit 1
+          fi
