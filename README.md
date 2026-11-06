@@ -32,7 +32,7 @@ Itens registrados para depois. Nada disso está feito ainda.
 
 ## Segurança
 
-- Como reportar um problema: veja o arquivo `.well-known/security.txt` (ainda não existe; falta o e-mail de contato).
+- Como reportar um problema: veja o arquivo `.well-known/security.txt`.
 - O site não coleta dados de saúde.
 - Nenhum segredo fica no repositório. Se um segredo vazar, troque na hora.
 
