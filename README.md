@@ -30,6 +30,19 @@ Itens registrados para depois. Nada disso está feito ainda.
 - Área de vídeos.
 - Newsletter.
 
+## Segurança
+
+- Como reportar um problema: veja o arquivo `.well-known/security.txt`.
+- O site não coleta dados de saúde.
+- Nenhum segredo fica no repositório. Se um segredo vazar, troque na hora.
+
+O que a CI verifica a cada pull request e a cada push na `main`:
+
+1. Script externo sem `integrity` (SRI).
+2. Uso de `innerHTML` nos arquivos JavaScript.
+3. Chaves e segredos no código (chaves do Supabase, tokens do GitHub e chaves privadas).
+4. Links `http://` sem o `s`.
+
 ## Histórico
 
 - 2026-11-05: visual v2, link do Instagram e foto de perfil.
