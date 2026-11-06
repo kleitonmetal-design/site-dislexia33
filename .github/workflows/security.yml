@@ -15,11 +15,73 @@ jobs:
       - name: Baixar o código
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
+      - name: Segredos conhecidos
+        run: |
+          achados=$(grep -rnE 'sb_secret_|service_role|ghp_|github_pat_|BEGIN PRIVATE KEY' . --exclude-dir=.git --exclude=security.yml || true)
+          if [ -n "$achados" ]; then
+            echo "Possível segredo no código (conteúdo omitido):"
+            echo "$achados" | cut -d: -f1,2
+            exit 1
+          fi
+
+      - name: Proteção da CSP (sem código dentro do HTML)
+        run: |
+          msg="A CSP do site só aceita código em arquivos .css e .js. Mova este código para um arquivo."
+          falhou=0
+          checar() {
+            achados=$(grep -rnE "$2" --include='*.html' --exclude-dir=.git . | grep -vE "$3" || true)
+            if [ -n "$achados" ]; then
+              echo "::error::$1. $msg"
+              echo "$achados"
+              falhou=1
+            fi
+          }
+          checar "Script dentro do HTML" '<script' 'src='
+          checar "Tag style dentro do HTML" '<style([[:space:]>]|$)' '^$'
+          checar "Atributo style" '<[^>]*[[:space:]]style=' '^$'
+          checar "Atributo de evento (onclick, onload e parecidos)" '<[^>]*[[:space:]]on[a-zA-Z]+=' '^$'
+          exit $falhou
+
+      - name: Validade do security.txt
+        run: |
+          arquivo=.well-known/security.txt
+          if [ ! -f "$arquivo" ]; then
+            echo "::error::Arquivo $arquivo não existe."
+            exit 1
+          fi
+          linha=$(grep -iE '^Expires:' "$arquivo" | head -n1 || true)
+          if [ -z "$linha" ]; then
+            echo "::error::Falta o campo Expires em $arquivo."
+            exit 1
+          fi
+          data=$(echo "$linha" | sed -E 's/^[Ee]xpires:[[:space:]]*//' | tr -d '\r')
+          expira=$(date -u -d "$data" +%s 2>/dev/null) || { echo "::error::Data inválida no campo Expires: $data"; exit 1; }
+          agora=$(date -u +%s)
+          dias=$(( (expira - agora) / 86400 ))
+          if [ "$expira" -le "$agora" ]; then
+            echo "::error::O security.txt venceu em $data. Atualize a data de Expires."
+            exit 1
+          fi
+          if [ "$dias" -lt 30 ]; then
+            echo "::error::O security.txt vence em $dias dias ($data). Atualize a data de Expires."
+            exit 1
+          fi
+          echo "security.txt válido por mais $dias dias."
+
       - name: Script externo sem SRI
         run: |
-          achados=$(grep -rnE '<script[^>]*src="https?:' --include='*.html' . | grep -v 'integrity=' || true)
+          achados=$(grep -rnE '<script[^>]*src="https?:' --include='*.html' --exclude-dir=.git . | grep -v 'integrity=' || true)
           if [ -n "$achados" ]; then
             echo "Script externo sem integrity (SRI):"
+            echo "$achados"
+            exit 1
+          fi
+
+      - name: Links http sem s
+        run: |
+          achados=$(grep -rnE "(href|src)=[\"']http://" --include='*.html' --include='*.js' --include='*.css' --exclude-dir=.git . || true)
+          if [ -n "$achados" ]; then
+            echo "Link http:// encontrado:"
             echo "$achados"
             exit 1
           fi
@@ -33,20 +95,17 @@ jobs:
             exit 1
           fi
 
-      - name: Padrões de segredo
-        run: |
-          achados=$(grep -rnE 'sb_secret_|service_role|ghp_|github_pat_|BEGIN PRIVATE KEY' . --exclude-dir=.git --exclude=security.yml || true)
-          if [ -n "$achados" ]; then
-            echo "Possível segredo no código (conteúdo omitido):"
-            echo "$achados" | cut -d: -f1,2
-            exit 1
-          fi
+  trufflehog:
+    name: TruffleHog Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código com todo o histórico
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
 
-      - name: Links http sem s
-        run: |
-          achados=$(grep -rnE "(href|src)=[\"']http://" --include='*.html' --include='*.js' --include='*.css' --exclude-dir=.git . || true)
-          if [ -n "$achados" ]; then
-            echo "Link http:// encontrado:"
-            echo "$achados"
-            exit 1
-          fi
+      - name: Procurar segredos verificados
+        uses: trufflesecurity/trufflehog@fd43a8805ec64ad285726735dbb09b7555a42b3c # v3.99.6
+        with:
+          path: ./
+          extra_args: --only-verified

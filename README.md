@@ -42,6 +42,9 @@ O que a CI verifica a cada pull request e a cada push na `main`:
 2. Uso de `innerHTML` nos arquivos JavaScript.
 3. Chaves e segredos no código (chaves do Supabase, tokens do GitHub e chaves privadas).
 4. Links `http://` sem o `s`.
+5. Segredos verificados (TruffleHog).
+6. Código dentro do HTML (compatibilidade com a CSP).
+7. Validade do `security.txt` (alerta 30 dias antes do vencimento).
 
 ## Histórico
 
